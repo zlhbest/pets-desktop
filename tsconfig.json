@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "baseUrl": "./",
+    "paths": {
+      // 方便引入framework
+      "@framework/*": ["public/live2d/live2dSDK/Framework/*"]
+    }
+  },
+  "include": [
+    "./src/live2d/**/*.ts",
+    "./public/live2d/live2dSDK/Core/*.ts", 
+    "src/live2d/main.ts",
+    "src/mmd/mian.ts" ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

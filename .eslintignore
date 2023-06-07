@@ -1,0 +1,7 @@
+// 忽略eslint 检查的文件 主要是告诉插件 不要报错,很烦
+// 不检测public文件夹
+public
+dist
+config
+node_modules
+src-tauri

@@ -1,0 +1,9 @@
+{
+  "Version": "0.9.6.0",
+  "Title": "银河",
+  "Thumbnail": "preview.png",
+  "Preview": "preview.png",
+  "Desc": "threejs 制作的银河",
+  "Author": "朱龙昊",
+  "MainFile": "index.html"
+}

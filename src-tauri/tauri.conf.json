@@ -1,0 +1,79 @@
+{
+  "build": {
+    "beforeDevCommand": "",
+    "beforeBuildCommand": "",
+    "devPath": "../dist",
+    "distDir": "../dist",
+    "withGlobalTauri": false
+  },
+  "plugins": {
+    "webview_window": {}
+  },
+  "package": {
+    "productName": "pets-desktop",
+    "version": "0.0.0"
+  },
+  "tauri": {
+    "systemTray": {
+      "iconPath": "icons/icon.png",
+      "iconAsTemplate": true
+    },
+    "allowlist": {
+      "all": false,
+      "window": {
+        "all": true
+      },
+      "fs": {
+        "scope": ["$RESOURCE/resources/**"],
+        "readFile": true,
+        "readDir": true
+      },
+      "protocol": {
+          "all": true,
+          "asset": true,
+          "assetScope": [
+              "$RESOURCE/resources/**"
+          ]
+      },
+      "path": {
+        "all": true
+      },
+       "dialog": {
+        "all": false, 
+        "open": true ,
+        "confirm": true
+      }
+    },
+    "bundle": {
+      "active": true,
+      "icon": [
+        "icons/32x32.png",
+        "icons/128x128.png",
+        "icons/128x128@2x.png",
+        "icons/icon.icns",
+        "icons/icon.ico"
+      ],
+      "resources":[
+        "resources/*"
+      ],
+      "identifier": "com.zenshin.pets-desktop",
+      "targets": "all"
+    },
+    "security": {
+        "csp": "default-src 'self' library: https://library.localhost; connect-src 'self' library: https://library.localhost; img-src 'self' data: asset: https://asset.localhost ",
+        "dangerousRemoteDomainIpcAccess": [
+          {
+            "domain": "localhost",
+            "scheme": "mmd",
+            "enableTauriAPI": true,
+            "windows": ["mmd_window"]
+          }
+        ]
+    },
+    "updater": {
+      "active": false
+    },
+    "macOSPrivateApi": true,
+    "windows": []
+  }
+}

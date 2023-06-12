@@ -8,9 +8,9 @@ pub static WALLPAPER_WINDOW_NAME: &str = "wallpaper";
 // 宠物窗口名称
 pub static PETS_WINDOW_NAME: &str = "pets";
 
-pub static LIVE2D_WINDOW_NAMW: &str = "live2d_window";
+pub static LIVE2D_WINDOW_NAME: &str = "live2d_window";
 
-pub static MMD_WINDOW_NAMW: &str = "mmd_window";
+pub static MMD_WINDOW_NAME: &str = "mmd_window";
 
 pub static CUSTOM_RESOURCE_SCHEME_PROTOCOL: &str = "library";
 

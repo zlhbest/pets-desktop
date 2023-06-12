@@ -85,7 +85,7 @@ fn update_config_monitors_setting(
 
 // 如果返回值存在错误，需要返回更加详细的自定义错误信息，就需要使用CommandResult
 #[tauri::command]
-pub fn upload_wapper_dir(form: String, to: String) -> Result<CommandResult<()>> {
+pub fn upload_paper_dir(form: String, to: String) -> Result<CommandResult<()>> {
     // 这里需要对上传的文件夹进行校验，判断是不是符合条件的文件夹
     let check_result = check_dir_context(form.clone()).unwrap();
     if check_result.code == CommandResultCode::Success {

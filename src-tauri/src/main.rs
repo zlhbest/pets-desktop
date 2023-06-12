@@ -10,7 +10,7 @@ use statics::CUSTOM_RESOURCE_SCHEME_PROTOCOL;
 
 use std::{sync::RwLock, thread, time::Duration};
 use tauri::{
-    http::Response, App, AppHandle, CustomMenuItem, GlobalWindowEvent, Manager, Result, SystemTray,
+    App, AppHandle, CustomMenuItem, GlobalWindowEvent, Manager, Result, SystemTray,
     SystemTrayEvent, SystemTrayMenu,
 };
 use tauri_window::get_control_window;
@@ -72,7 +72,7 @@ fn init_window() -> Result<App> {
             get_all_monitors_setting,
             update_monitors_setting,
             delete_wallpaper,
-            upload_wapper_dir,
+            upload_paper_dir,
             setting_live2d,
             setting_mmd
         ])
@@ -83,7 +83,7 @@ fn init_window() -> Result<App> {
 // 创建系统托盘菜单
 fn system_tray_menu() -> SystemTrayMenu {
     SystemTrayMenu::new()
-        .add_item(CustomMenuItem::new("open_mcontrol_window", "打开控制面板"))
+        .add_item(CustomMenuItem::new("open_control_window", "打开控制面板"))
         .add_item(CustomMenuItem::new("close_wallpaper", "关闭壁纸"))
         .add_item(CustomMenuItem::new("quit", "退出"))
 }
@@ -102,7 +102,7 @@ fn open_main_window(app: &AppHandle) {
 fn menu_handler(app: &AppHandle, event: SystemTrayEvent) {
     match event {
         SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
-            "open_mcontrol_window" => open_main_window(app),
+            "open_control_window" => open_main_window(app),
             "close_wallpaper" => match app.get_window(WALLPAPER_WINDOW_NAME) {
                 Some(wallpaper_window) => {
                     // 这里close 是发的消息，不能及时的关闭，只能通过暂停几秒来确保关闭

@@ -3,7 +3,7 @@ use tauri::{App, AppHandle, Manager, Result, Window, WindowBuilder, WindowUrl};
 use windows::Win32::{Foundation::HWND, UI::WindowsAndMessaging::SetParent};
 
 use crate::statics::{
-    LIVE2D_WINDOW_NAMW, MAIN_WINDOW_NAME, MMD_WINDOW_NAMW, WALLPAPER_WINDOW_NAME,
+    LIVE2D_WINDOW_NAME, MAIN_WINDOW_NAME, MMD_WINDOW_NAME, WALLPAPER_WINDOW_NAME,
 };
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -88,13 +88,13 @@ pub fn get_control_window(app: &App) -> Result<Window> {
 }
 
 pub fn create_live2d_window(app: &AppHandle) -> Result<Window> {
-    if let Some(live2d_window) = app.get_window(LIVE2D_WINDOW_NAMW) {
+    if let Some(live2d_window) = app.get_window(LIVE2D_WINDOW_NAME) {
         let _ = live2d_window.show();
         Ok(live2d_window)
     } else {
         let window = WindowBuilder::new(
             app,
-            LIVE2D_WINDOW_NAMW,
+            LIVE2D_WINDOW_NAME,
             //tauri::WindowUrl::External("http://localhost:4000/".parse().unwrap()),
             WindowUrl::App("live2d/index.html".into()),
         )
@@ -110,13 +110,13 @@ pub fn create_live2d_window(app: &AppHandle) -> Result<Window> {
 }
 //  创建mmd窗口
 pub fn create_mmd_window(app: &AppHandle) -> Result<Window> {
-    if let Some(mmd_window) = app.get_window(MMD_WINDOW_NAMW) {
+    if let Some(mmd_window) = app.get_window(MMD_WINDOW_NAME) {
         let _ = mmd_window.show();
         Ok(mmd_window)
     } else {
         let window = WindowBuilder::new(
             app,
-            MMD_WINDOW_NAMW,
+            MMD_WINDOW_NAME,
             //tauri::WindowUrl::External("http://localhost:4000/".parse().unwrap()),
             WindowUrl::App("mmd/index.html".into()),
         )

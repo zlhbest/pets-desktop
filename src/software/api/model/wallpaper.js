@@ -1,5 +1,5 @@
 // 构造一个用于展示的WallpaperModel
-import { tauri_path_handler } from "../../utils/fileutils";
+import { tauri_path_handler } from "../../utils/file_utils";
 export const wallpaper_dir = "resources\\wallpaper_library";
 
 export default class WallpaperModel {

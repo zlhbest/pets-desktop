@@ -17,7 +17,7 @@ use windows::{
     },
 };
 
-static mut NOUSE_HOOK_HWND: Option<HWND> = None;
+static mut MOUSE_HOOK_HWND: Option<HWND> = None;
 // 这样开销要小很多 但是这种设置全局变量的方式让extend 函数能够使用我感觉很不方便，对于软件设计是一种丑陋的存在，应该还有更加优雅的方式实现
 static mut SELECT_MONITOR_POSITION: Option<MousePoint> = None;
 lazy_static! {
@@ -74,7 +74,7 @@ impl MouseHook {
         self.window_hwnd = Some(hwnd);
         let chrome_hwnd = get_webview_chrome_hwnd(self.window_hwnd);
         //  使用笨办法 等后面发现更好的办法再改进
-        unsafe { NOUSE_HOOK_HWND = chrome_hwnd };
+        unsafe { MOUSE_HOOK_HWND = chrome_hwnd };
     }
 
     pub fn set_monitor(monitors: Vec<Monitor>) {
@@ -95,9 +95,9 @@ impl MouseHook {
      * 创建钩子
      */
     pub fn create_hook(&mut self) {
-        let hmod = unsafe { GetModuleHandleW(PCWSTR::null()).unwrap() };
+        let module = unsafe { GetModuleHandleW(PCWSTR::null()).unwrap() };
         // 监听全局的鼠标事件
-        match unsafe { SetWindowsHookExW(WH_MOUSE_LL, Some(Self::hook_shoot), hmod, 0) } {
+        match unsafe { SetWindowsHookExW(WH_MOUSE_LL, Some(Self::hook_shoot), module, 0) } {
             Ok(hook) => self.hook = Some(hook),
             Err(err) => {
                 println!("创建钩子失败:{}", err);
@@ -110,7 +110,7 @@ impl MouseHook {
      *  这里面是否可以传递一个闭包，使用使用外部变量呢
      */
     unsafe extern "system" fn hook_shoot(code: i32, wparam: WPARAM, lparam: LPARAM) -> LRESULT {
-        if NOUSE_HOOK_HWND.is_some() {
+        if MOUSE_HOOK_HWND.is_some() {
             // 当在窗口的时候才去使用 减少阻塞
             if SCREEN_HELPER.is_desktop() {
                 let wparam_cast = wparam.0 as u32;
@@ -121,7 +121,7 @@ impl MouseHook {
                     // 这里是鼠标点击事件
                     WM_MOUSEMOVE | WM_NCMOUSEMOVE => {
                         let _ = PostMessageW(
-                            NOUSE_HOOK_HWND.unwrap(),
+                            MOUSE_HOOK_HWND.unwrap(),
                             WM_MOUSEMOVE,
                             WPARAM(0x0020),
                             LPARAM(mouse_point.get_mouse_i32_value() as *mut i32 as isize),
@@ -130,7 +130,7 @@ impl MouseHook {
                     // 鼠标按下事件
                     WM_LBUTTONDOWN => {
                         let _ = PostMessageW(
-                            NOUSE_HOOK_HWND.unwrap(),
+                            MOUSE_HOOK_HWND.unwrap(),
                             WM_LBUTTONDOWN,
                             WPARAM(0x0001),
                             LPARAM(mouse_point.get_mouse_i32_value() as *mut i32 as isize),
@@ -139,7 +139,7 @@ impl MouseHook {
                     // 鼠标左键抬起事件
                     WM_LBUTTONUP => {
                         let _ = PostMessageW(
-                            NOUSE_HOOK_HWND.unwrap(),
+                            MOUSE_HOOK_HWND.unwrap(),
                             WM_LBUTTONUP,
                             WPARAM(0x0001),
                             LPARAM(mouse_point.get_mouse_i32_value() as *mut i32 as isize),

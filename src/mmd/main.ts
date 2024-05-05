@@ -48,16 +48,16 @@ function init() {
           animation: mmd.animation,
           physics: true,
         });
-        // loader.loadAnimation(files.cameraFile, camera, (cameraAnimation) => {
-        //   helper.add(camera, {
-        //     animation: cameraAnimation as THREE.AnimationClip,
-        //   });
-        //   new THREE.AudioLoader().load(files.audioFile, function (buffer) {
-        //     const audio = new THREE.Audio(listener).setBuffer(buffer);
-        //     helper.add(audio, audioParams);
-        //     scene.add(mmd.mesh);
-        //   });
-        // });
+        loader.loadAnimation(files.cameraFile, camera, (cameraAnimation) => {
+          helper.add(camera, {
+            animation: cameraAnimation as THREE.AnimationClip,
+          });
+          new THREE.AudioLoader().load(files.audioFile, function (buffer) {
+            const audio = new THREE.Audio(listener).setBuffer(buffer);
+            helper.add(audio, audioParams);
+            scene.add(mmd.mesh);
+          });
+        });
       },
       function onProgress(xhr) {
         if (xhr.lengthComputable) {

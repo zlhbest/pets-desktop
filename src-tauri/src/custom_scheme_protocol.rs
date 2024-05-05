@@ -9,7 +9,7 @@ pub fn mmd_file_handler(
     app: &AppHandle,
     request: &Request,
 ) -> Result<Response, Box<dyn std::error::Error>> {
-    let mut resp = ResponseBuilder::new().header("Access-Control-Allow-Origin", "*");
+    let resp = ResponseBuilder::new().header("Access-Control-Allow-Origin", "*");
     let path: &str = request.uri().strip_prefix(MMD_URI_REPLACE).unwrap();
     if let Some(resource_dir) = app.path_resolver().resource_dir() {
         // 进行join

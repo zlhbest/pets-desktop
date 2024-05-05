@@ -5,8 +5,6 @@ pub static MONITORS_SETTING_CONFIG: &str = "monitors_setting_config";
 pub static MAIN_WINDOW_NAME: &str = "main";
 // 背景窗口名称
 pub static WALLPAPER_WINDOW_NAME: &str = "wallpaper";
-// 宠物窗口名称
-pub static PETS_WINDOW_NAME: &str = "pets";
 
 pub static LIVE2D_WINDOW_NAME: &str = "live2d_window";
 

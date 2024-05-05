@@ -1,35 +1,48 @@
-/**
- * Copyright(c) Live2D Inc. All rights reserved.
- *
- * Use of this source code is governed by the Live2D Open Software license
- * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
- */
+// 导入pixi和live2d模块
+import * as PIXI from "pixi.js";
+import { Live2DModel } from "pixi-live2d-display";
+import { setLive2dScale } from "./utils";
 
-import { LAppDelegate } from "./control_live2d/lappdelegate";
-import * as LAppDefine from "./control_live2d/lappdefine";
-
-/**
- * 浏览器加载后的处理
- */
-window.onload = (): void => {
-  // create the application instance
-  if (LAppDelegate.getInstance().initialize() == false) {
-    return;
-  }
-
-  LAppDelegate.getInstance().run();
-};
-
-/**
- * 结束时的处理
- */
-window.onbeforeunload = (): void => LAppDelegate.releaseInstance();
-
-/**
- * Process when changing screen size.
- */
-window.onresize = () => {
-  if (LAppDefine.CanvasSize === "auto") {
-    LAppDelegate.getInstance().onResize();
-  }
-};
+window["PIXI"] = PIXI;
+let mainModel;
+async function main() {
+  // 创建pixi应用
+  const app = new PIXI.Application({
+    width: window.innerWidth,
+    height: window.innerHeight,
+    backgroundAlpha: 0, // 设置背景透明度
+  });
+  const dropDiv = document.getElementById("drop_div");
+  // 添加到dom中 需要进行类型转换
+  dropDiv.appendChild(app.view as HTMLCanvasElement);
+  // 获取model 使用pixi.js 加载
+  const cubism4Model =
+    "https://cdn.jsdelivr.net/gh/Eikanya/Live2d-model/Live2D/Senko_Normals/senko.model3.json";
+  Live2DModel.from(cubism4Model).then((model) => {
+    mainModel = model;
+    app.stage.addChild(model as any);
+    setModel(model);
+    // interaction
+    model.on("hit", (hitAreas) => {
+      console.log(hitAreas);
+      if (hitAreas.includes("Body")) {
+        model.motion("tap_body");
+      }
+    });
+  });
+}
+function setModel(model: Live2DModel) {
+  model.x = window.innerWidth / 2;
+  model.y = window.innerHeight / 2;
+  // 设置缩放
+  model.scale.set(
+    setLive2dScale(model.getBounds().width, model.getBounds().height)
+  );
+  // 设置锚点
+  model.anchor.set(0.5);
+}
+window.addEventListener("resize", () => {
+  setModel(mainModel);
+});
+// 执行main函数
+main().then();
